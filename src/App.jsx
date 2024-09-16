@@ -1,33 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect, useRef } from 'react';
+import useSound from 'use-sound';
+import simon from './assets/sounds/sprite.mp3';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  // declarar referencias al DOM de colores
+  const blueRef = useRef(null);
+  const yellowRef = useRef(null);
+  const greenRef = useRef(null);
+  const redRef = useRef(null);
+
+  // iniciar librería de sonido
+  const [play] = useSound(simon, {
+    sprite: {
+      // declarar 4 sonidos con inicio del sonido y duración
+      one: [0, 500],
+      two: [1000, 500],
+      three: [2000, 500],
+      four: [3000, 500],
+      herror: [4000, 500],
+    }
+  })
+
+  // array de objetos para colores, referencias al DOM y sonidos
+  const colors = [
+    {
+      color: '#faf303',
+      ref: yellowRef,
+      sound: 'one'
+    },
+    {
+      color: '#030afa',
+      ref: 'blueRef',
+      sound: 'two'
+    },
+    {
+      color: '#fa0e03',
+      ref: 'redRef',
+      sound: 'three'
+    },
+    {
+      color: '#0afa03',
+      ref: 'greenRef'
+    }
+  ]
+
+  // constantes para cálculos y velocidad inicial
+  const minNumber = 0;
+  const maxNumber = 0;
+  const speedGame = 400;
+
+  // HOOKS DE ESTADO
+  // almacena secuentia que genera el juego
+  const [sequence, setSequence] = useState([]);
+  //
+  const [currentGame, setCurrentGame] = useState([]);
+  const [isAllowedToPlay, setIsAllowedToPlay] = useState(false);
+  const [speed, setSpeed] = useState(speedGame);
+  const [turn, setTurn] = useState(0);
+  const [pulses, setPulses] = useState(0);
+  const [succes, setSuccess] = useState(0);
+  const [isGameOn, set] = usestate(false);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h1>jUEGO SIMON</h1>
     </>
   )
 }
