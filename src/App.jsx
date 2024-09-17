@@ -110,7 +110,7 @@ function App() {
       } else {
         const index = sequence[pulses - 1]
         if (index) colors[index].ref.current.style.opacity = (1);
-        play({ id: 'herror' })
+        play({ id: 'error' })
         setTimeout(() => {
           if (index) colors[index].ref.current.style.opacity = (0.5);
           setIsGameOn(false);
@@ -119,6 +119,7 @@ function App() {
     }
   }, [pulses])
 
+    // useEffect ISGAMEON
   useEffect(() => {
     if (!isGameOn) {
       setSequence([]);
@@ -132,6 +133,7 @@ function App() {
 
   }, [isGameOn])
 
+  // useEffect SUCCESS
   useEffect(() => {
     if (success === sequence.length && success > 0) {
       setTimeout(() => {
@@ -143,19 +145,21 @@ function App() {
     }
   }, [success])
 
+  // useEffect SEQUENCE
   useEffect(() => {
     if (!isAllowedToPlay) {
       sequence.map((item, index) => {
         setTimeout(() => {
           play({ id: colors[item].sound })
-          colrs[item].reg.current.style.opacity = (1);
+          colors[item].ref.current.style.opacity = (1);
           setTimeout(() => {
-            colors[item].ref.current.style.opacity =(0.5);
+            colors[item].ref.current.style.opacity = (0.5);
           }, speed / 2);
-
         }, speed * index);
       })
     }
+    // seteamos a true para poder clickar
+    setIsAllowedToPlay(true)
   }, [sequence])
 
 
@@ -165,25 +169,29 @@ function App() {
         isGameOn
           ?
           <>
+            {/* mostramos si GAMEON es true */}
             <div className='header'>
               <h1>Turn</h1>
             </div>
             <div className='container'>
               {/* recorrer el array y crear div por color */}
-              {colors.map((item, index) => (
-                <div
-                  key={index}
-                  ref={item.ref}
-                  className={`pad pad-${index}`}
-                  style={{ backgroundColor: `${item.color}`, opacity: 0.6 }}
-                  onClick={() => handleClick(index)}
-                >
-                </div>
-              ))}
+              {colors.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    ref={item.ref}
+                    className={`pad pad-${index}`}
+                    style={{ backgroundColor: `${item.color}`, opacity: 0.6 }}
+                    onClick={() => handleClick(index)}
+                  >
+                  </div>
+                )
+              })}
             </div>
           </>
           :
           <>
+            {/* mostramos si GAMEON es false */}
             <div className='header'>
               <h1>SUPER SIMON</h1>
             </div>
